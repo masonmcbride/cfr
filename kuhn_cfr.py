@@ -111,7 +111,18 @@ if __name__ == '__main__':
     print("We expect the bet frequency for a Jack to be between 0 and 1/3")
     print("The bet frequency of a King should be three times the one for a Jack\n")
 
-    print(f"History  Bet  Pass")
-    for name, info_set in sorted(cfr_trainer.infoset_map.items(), key=lambda s: len(s[0])):
-        print(f"{name:3}:    {info_set.get_average_strategy()}")
+
+    history=''
+    cards = ['J', 'Q', 'K']
+    def print_tree(history, indent):
+        if KuhnPoker.is_terminal(history[1:]):
+            return
+        player = '+' if indent%2==0 else '-'
+        strategy = cfr_trainer.infoset_map[history].get_average_strategy()
+        print(player, ' '*indent, history, strategy)
+        for action in Actions:
+            print_tree(history+action, indent+1)
+
+    for card in cards:
+        print_tree(card, 0)
 
