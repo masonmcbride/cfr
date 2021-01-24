@@ -46,15 +46,12 @@ def train(iterations, me, opp):
     for _ in range(iterations):
         #⟨Get regret-matched mixed-strategy actions⟩
         my_action = get_action(me.strategy)
-        e = .34
-        r = (1-e)/2
-        opp_action = get_action([e, r, r])
+        opp_action = get_action(opp.strategy)
         me.update_strategy(my_action, opp_action)
-        #opp.update_strategy(opp_action, my_action)
+        opp.update_strategy(opp_action, my_action)
 
     my_optimal = me.strategy_sum / me.number_of_updates
-    #opp_optimal = opp.strategy_sum / opp.number_of_updates
-    opp_optimal = "N/A"
+    opp_optimal = opp.strategy_sum / opp.number_of_updates
     return my_optimal, opp_optimal
 
 if __name__ == '__main__':
