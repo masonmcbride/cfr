@@ -42,6 +42,11 @@ class Player:
 def get_action(strategy):
     return np.random.choice(range(NUM_ACTIONS), p=strategy)
 
+def expected_utility(s1, s2):
+    utilities = np.array([Player.payoff(me, a1, a2) for a1, a2 in A])
+    probs = np.array([s1[a1]*s2[a2] for a1, a2 in A])
+    return sum(utilities*probs)
+
 def train(iterations, me, opp):
     for _ in range(iterations):
         #⟨Get regret-matched mixed-strategy actions⟩
@@ -57,6 +62,14 @@ def train(iterations, me, opp):
 if __name__ == '__main__':
     me = Player()
     opp = Player()
-    me_optimal, opp_optimal = train(1000000, me, opp)
-    print(f"my optimal strategy: {me_optimal}")
-    print(f"opponent optimal strategy: {opp_optimal}")
+    #me_optimal, opp_optimal = train(1000000, me, opp)
+    #print(f"my optimal strategy: {me_optimal}")
+    #print(f"opponent optimal strategy: {opp_optimal}")
+    mixed = np.array([1/3, 1/3, 1/3])
+    pure = np.array([1, 0, 0])
+    heavy = np.array([.4, .3, .3])
+    print(expected_utility(mixed, mixed))
+    print(expected_utility(pure, mixed))
+    print(expected_utility(mixed, pure))
+    print(expected_utility(heavy, pure))
+
