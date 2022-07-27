@@ -1,6 +1,12 @@
 #Monte Carlo Based Counterfactual Regret Optimization with Kuhn Poker
 #Players are each dealt 1 card from a deck of 3, actions=[check, bet] 
 
+"""
+Sources :=
+| Learn AI Game Playing Algorithm Part III — Counterfactual Regret Minimization
+    (https://xyzml.medium.com/learn-ai-game-playing-algorithm-part-iii-counterfactual-regret-minimization-b182a7ec85fb)
+"""
+
 from typing import List, Dict
 import sys
 import numpy as np
@@ -126,7 +132,7 @@ class KuhnPokerTrainer:
 def print_tree(card : Card, history : str, indent : int) -> None:
     if KuhnPoker.is_terminal(history):
         return
-    player : str = '+' if indent%2==0 else '-'
+    player   : str        = '+' if indent%2==0 else '-'
     strategy : np.ndarray = cfr_trainer.infoset_map[card.name+history].get_average_strategy()
     print(player, ' '*indent, card.name, history, strategy)
     for action in Actions:
@@ -152,7 +158,7 @@ if __name__ == '__main__':
     print("We expect the bet frequency for a Jack to be between 0 and 1/3")
     print("The bet frequency of a King should be three times the one for a Jack\n")
 
-
+    print(f"| History | B | C |")
     history=''
     for card in list(Card):
         print_tree(card, history, indent=0)
